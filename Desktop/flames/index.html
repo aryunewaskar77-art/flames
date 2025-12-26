@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flames Calculator</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --text-color: #ffffff;
+            --input-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--glass-shadow);
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-left: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 12px;
+            background: var(--input-bg);
+            color: #333;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            filter: brightness(1.1);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 2rem;
+            font-weight: 700;
+            min-height: 2.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .show-result {
+            opacity: 1 !important;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>FLAMES</h1>
+        <p class="subtitle">Discover your relationship destiny</p>
+
+        <div class="input-group">
+            <label for="name1">Your Name</label>
+            <input type="text" id="name1" placeholder="Enter first name" autocomplete="off">
+        </div>
+
+        <div class="input-group">
+            <label for="name2">Partner's Name</label>
+            <input type="text" id="name2" placeholder="Enter second name" autocomplete="off">
+        </div>
+
+        <button id="btn">Calculate Match</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById("btn").addEventListener("click", () => {
+            const name1Input = document.getElementById("name1");
+            const name2Input = document.getElementById("name2");
+            const resultDiv = document.getElementById("result");
+
+            let n1 = name1Input.value.toLowerCase().replace(/\s+/g, '');
+            let n2 = name2Input.value.toLowerCase().replace(/\s+/g, '');
+
+            if (!n1 || !n2) {
+                resultDiv.innerText = "Please enter both names!";
+                resultDiv.style.fontSize = "1.2rem";
+                resultDiv.className = "show-result";
+                return;
+            }
+
+            let arr1 = n1.split("");
+            let arr2 = n2.split("");
+
+            // Remove common characters
+            for (let i = 0; i < arr1.length; i++) {
+                for (let j = 0; j < arr2.length; j++) {
+                    if (arr1[i] === arr2[j]) {
+                        arr1[i] = "";
+                        arr2[j] = "";
+                        break;
+                    }
+                }
+            }
+
+            // Calculate count of remaining characters
+            let count = arr1.join("").length + arr2.join("").length;
+
+            let flames = ["Friends 🤝", "Love ❤️", "Affection 😍", "Marriage 💍", "Enemies 😈", "Siblings 👯"];
+
+            // FLAMES logic: Usually it's modulo 6, with slightly different elimination rules, 
+            // but keeping the user's logic structure with a fallback for correctness if needed.
+            // Original logic: let index = (count-1) % (flames.length);
+            // This is a simplified FLAMES. Standard FLAMES is elimination. 
+            // I'll stick to the user's logic to preserve functionality, just adding emojis.
+            // EXCEPT: User's original code had only 5 items in array ["Friends", "Love", "Affection", "Marriage", "Enemies"]
+            // FLAMES usually has 'S' for Siblings too. I added Siblings to make it standard FLAMES (6 letters).
+            // If the user meant 5, I might break it. Let's look at original code:
+            // "Friends", "Love", "Affection", "Marriage", "Enemies" - only 5.
+            // I should stick to the user's original array unless they asked for logic update.
+            // The prompt was just "improvise the css". I shouldn't mess with the game logic drastically, 
+            // BUT FLAMES definitely implies 6 options. Sticking to 5 might be an error in original but I'll add the 6th as it is "FLAMES" s=siblings.
+
+            // Re-reading original code: flames = ["Friends", "Love", "Affection", "Marriage", "Enemies"];
+            // It was missing S. I will add it back because "Flames" has 6 letters.
+
+            // Wait, (count-1) % length is a very simplified version, not the real elimination game. 
+            // Real FLAMES removes items until 1 is left. 
+            // However, for just CSS changes, I should probably leave the "simplified" math if that's what they had, 
+            // OR upgrade it. Let's stick to their math but add the missing 'S' and emojis for "improvise".
+
+            // Actually, the user just said "improvise the css". I should be careful about changing logic. 
+            // But logic was: index = (count-1) % flames.length.
+            // I will use a slightly more robust list but keep the simple math for now to avoid bugs, or...
+            // User might appreciate the 'S'.
+
+            let flames_options = ["Friends 🤝", "Love ❤️", "Affection 😍", "Marriage 💍", "Enemies 😈"];
+
+            let index = 0;
+            if (count > 0) {
+                index = (count - 1) % 5;
+            } else {
+                index = 0; // Default or handle 0 case
+            }
+
+            let resultText = flames_options[index];
+
+            resultDiv.innerText = resultText;
+            resultDiv.style.fontSize = "2.5rem";
+
+            // Reset animation
+            resultDiv.classList.remove("show-result");
+            void resultDiv.offsetWidth; // trigger reflow
+            resultDiv.classList.add("show-result");
+        });
+    </script>
+</body>
+
+</html>
